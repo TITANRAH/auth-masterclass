@@ -1,0 +1,38 @@
+prisma:
+
+npm i -D prisma
+npm i @prisma/client
+npx prisma init
+
+
+neon.tech: 
+
+aqui esta la bd en postgress
+
+npx prisma generate:
+
+para poder acceder a la bd en cualquier parte del proyecto en mi codigo a la bd findMany etc
+
+npx prisma db push:
+
+una vez realizados los modelos hacer push
+
+empezando con auth:
+
+primero hay que instalar adaptadores 
+en este caso para prisma esta es la doc: 
+https://authjs.dev/reference/adapter/prisma 
+
+si ya se  instalo prisma client 
+
+solo instalar npm i @auth/prisma-adapter
+
+cada vez que sume un schema al schema.prisma realizar lo mismo 
+
+npx prisma generate
+npx prisma db push
+
+debo ir a la documentacion de npx prisma y traer los ejemplos de schemas aqui
+ https://authjs.dev/reference/adapter/prisma
+
+

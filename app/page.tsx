@@ -8,6 +8,7 @@ const font = Poppins({
   weight: ["600"],
 });
 export default function Home() {
+
   return (
     // en la propiedad variant puedo llamar propiedades inventadas o establecidas en button en
     // el apartado de variants
