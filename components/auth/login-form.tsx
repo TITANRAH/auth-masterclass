@@ -22,7 +22,7 @@ import { useState, useTransition } from "react";
 
 function LoginForm() {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
+  const [error, setError] = useState<any>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -33,15 +33,25 @@ function LoginForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit =  (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
-    console.log("values de form >>>", values);
+    // console.log("values de form >>>", values);
     startTransition(() => {
-      login(values).then((data) => {
-        setError(data.error), 
-        setSuccess(data.success)
-      });
+      login(values).then( (data) => {
+        // console.log('data >>',data)
+        if(data?.error){
+          console.log('cayo en el if de error')
+          setError(data?.error)
+          // setSuccess('')
+
+        }
+
+        // if(data?.success){
+
+        //   setSuccess(data!.success)
+        // }
+      })
     });
   };
   return (

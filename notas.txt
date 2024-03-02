@@ -36,3 +36,93 @@ debo ir a la documentacion de npx prisma y traer los ejemplos de schemas aqui
  https://authjs.dev/reference/adapter/prisma
 
 
+para next auth:
+
+seguir documentacion aqui https://authjs.dev/guides/upgrade-to-v5
+ npm install next-auth@beta  
+
+crear este archivo en root auth.ts 
+
+import NextAuth from  'next-auth'
+import GitHub from 'next-auth/providers/github'
+
+export const {
+    handlers: { GET , POST },
+    auth,
+} = NextAuth({
+    providers: [GitHub]
+})
+
+
+crear en directorio app la ruta de api/auth/[...nextauth]/routes.ts y copiar esto
+
+cambiar ./auth por @/auth
+
+export { GET, POST } from "@/auth"
+
+generar en .env la variable
+
+AUTH_SECRET="GPF4p4Ri0/pFFaSS7nnImSphSBm7mNHrGxzuBIHWgqM="
+
+escribiendo este comando een la terminal openssl rand -base64 32 me da el valor de la variable
+
+crear middleware.ts en root
+
+
+
+crear archivo auth.config.ts
+
+creamos la configuracion de los provider en este archivo 
+
+import GitHub from "next-auth/providers/github"
+
+import type { NextAuthConfig } from "next-auth"
+
+export default {
+  providers: [GitHub],
+} satisfies NextAuthConfig
+
+
+y ahora llamamos a ese archivo en el auth.js 
+
+import authConfig from '@/auth.config'
+
+
+
+export const {
+    handlers: { GET , POST },
+    auth,
+} = NextAuth({
+    ...authConfig
+})
+
+instalar npm i @auth/prisma-adapter 
+
+y llamar en el archivo auth 
+import { PrismaAdapter } from '@auth/prisma-adapter'
+
+
+en el mioddleware agrgamos estas impertaciones y creamos esta const
+
+
+import authConfig from "@/auth.config";
+import NextAuth from "next-auth";
+
+const {auth} = NextAuth(authConfig)
+
+export default auth((req) => {
+
+    const isLogged = !!req.auth
+  // req.auth
+  console.log('RUTA >>>' , req.nextUrl.pathname);
+  console.log('ISLOGGED IN >>>' , isLogged);
+  
+})
+// estas rutas invocaran al middleware quiere deir que si entro a auth/login vere el console 
+// log en el servidor el del auth
+export const config = {
+    // matcher: ["/auth/login"],
+    // esta esxpresion regular hace que tome todas las rutas posibles y futuras y el middleware se 
+    // invoque en todas 
+        matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  }

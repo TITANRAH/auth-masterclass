@@ -27,6 +27,7 @@ function RegisterForm() {
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
+
     defaultValues: {
       email: "",
       password: "",
@@ -40,10 +41,9 @@ function RegisterForm() {
     console.log("values de form >>>", values);
     startTransition(() => {
       register(values).then((data) => {
-        setError(data.error), 
-        setSuccess(data.success)
-      });
-    });
+        setError(data.error), setSuccess(data.success);
+      }).finally(()=>form.reset())
+    })
   };
   return (
     <CardWrapper
@@ -91,7 +91,7 @@ function RegisterForm() {
                 </FormItem>
               )}
             />
-             <FormField
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
